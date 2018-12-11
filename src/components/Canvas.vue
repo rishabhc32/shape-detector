@@ -39,7 +39,7 @@ export default {
         this.canvasContext = document.getElementById('fabric-canvas').getContext('2d')
 
         this.fabricCanvas = new fabric.Canvas('fabric-canvas', {isDrawingMode: true})
-        this.fabricCanvas.freeDrawingBrush.color = 'blue'
+        this.fabricCanvas.backgroundColor = '#ffffff'
     },
     methods: {
         setSliderValue: function(currentBrushWidth) {
@@ -48,13 +48,14 @@ export default {
         },
         clearCanvas: function() {
             this.fabricCanvas.clear()
+            this.fabricCanvas.backgroundColor = '#ffffff'
         },
         predictImage: function() {
             let image = this.canvasContext.getImageData(0, 0, this.fabricCanvas.getWidth(), this.fabricCanvas.getHeight())
             let pred = this.$model.predict(this.preprocessImage(image)).dataSync()
 
             let maxIndex = this.maxIndex(pred)
-            alert(maxIndex + " " + pred[maxIndex])
+            alert("Prediction: " + this.$classArray[maxIndex])
         },
         preprocessImage: function(imgData) {
             return tf.tidy(()=>{
